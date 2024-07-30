@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "NWMIFfH2VnKObyE3n8O7qQ+kRcSdvDt0FDW4SwjOAyjtkEXxR0BevPwF73V6VyDrluVcwybKRQ9Ncd/fuz1yUw==",
+  "success": true,
+  "projectFilePath": "C:\\mateus\\repos\\FIAP\\fiaphackathon\\backend\\fiaphackathonAgenda\\Application\\Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Mateus Ferraz\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
+    "C:\\Users\\Mateus Ferraz\\.nuget\\packages\\mediatr\\12.4.0\\mediatr.12.4.0.nupkg.sha512",
+    "C:\\Users\\Mateus Ferraz\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\Mateus Ferraz\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\Mateus Ferraz\\.nuget\\packages\\microsoft.extensions.options\\6.0.0\\microsoft.extensions.options.6.0.0.nupkg.sha512",
+    "C:\\Users\\Mateus Ferraz\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "C:\\Users\\Mateus Ferraz\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
