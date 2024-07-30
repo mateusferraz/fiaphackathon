@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Application.Interfaces;
+using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    internal class UserRepository
+    public class UserRepository: BaseRepository<User>, IUserRepository
     {
+        public UserRepository(DataBaseContext context) : base(context) { }
     }
 }
