@@ -1,9 +1,10 @@
-﻿using Domain.Entities;
+﻿using Domain.Entidades;
+using Domain.Entities;
 using System.Linq.Expressions;
 
 namespace Application.Interfaces
 {
-    public interface IBaseRepository<T> where T : EntityBase
+    public interface IBaseRepository<T> where T : EntidadeBase
     {
         void Insert(T entity);
         void Update(T entity);

@@ -1,14 +1,9 @@
 ﻿using Application.Interfaces;
-using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Entidades;
 
 namespace Infrastructure.Repositories
 {
-    public class UserRepository: BaseRepository<User>, IUserRepository
+    public class UserRepository: BaseRepository<Medico>, IUserRepository
     {
         public UserRepository(DataBaseContext context) : base(context) { }
     }

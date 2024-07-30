@@ -1,11 +1,11 @@
 ﻿using Application.Interfaces;
-using Domain.Entities;
+using Domain.Entidades;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories
 {
-    public abstract class BaseRepository<T> : IBaseRepository<T> where T : EntityBase
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : EntidadeBase
     {
         protected readonly DataBaseContext context;
         protected readonly DbSet<T> dbSet;
@@ -28,8 +28,8 @@ namespace Infrastructure.Repositories
 
         public void Insert(T entity)
         {
-            entity.CreateDateAt = DateTime.Now;
-            entity.UpdateDateAt = DateTime.Now;
+            entity.DataCriacao = DateTime.Now;
+            entity.DataAtualizacao = DateTime.Now;
             dbSet.Add(entity);
         }
 
@@ -40,7 +40,7 @@ namespace Infrastructure.Repositories
 
         public void Update(T entity)
         {
-            entity.UpdateDateAt = DateTime.Now;
+            entity.DataAtualizacao = DateTime.Now;
             dbSet.Attach(entity);
             this.context.Entry(entity).State = EntityState.Modified;
         }
