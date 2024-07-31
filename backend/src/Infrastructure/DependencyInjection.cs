@@ -11,7 +11,10 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration, bool sqlServerTest = false)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IPacienteRepository, AgendaRepository>();
+            services.AddScoped<IPacienteRepository, PacienteRepository>();
+            services.AddScoped<IMedicoRepository, MedicoRepository>();
+            services.AddScoped<IAgendaRepository, AgendaRepository>();
+            services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
 
             if (sqlServerTest is false)
                 AddSqlServer(services, configuration);

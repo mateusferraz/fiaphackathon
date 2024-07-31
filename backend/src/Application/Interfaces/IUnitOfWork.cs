@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Interfaces
+﻿namespace Application.Interfaces
 {
     public interface IUnitOfWork
     {
+        public IAgendaRepository AgendaRepository { get; }
+        public IAgendamentoRepository AgendamentoRepository { get; }
+        public IPacienteRepository PacienteRepository { get; }
+        public IMedicoRepository MedicoRepository { get; }
+
         void Commit();
         void Rollback();
     }

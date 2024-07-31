@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Requests.Medicos;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -10,11 +11,18 @@ namespace Presentation.Controllers
         }
 
         [HttpPost("cadastrar")]
-        public async Task<IActionResult> CadastrarMedico()
+        public async Task<IActionResult> CadastrarMedico([FromBody] CadatrarMedicoRequest medico)
         {
             try
             {
-                return Ok();
+                return Ok(await mediator.Send(new CadatrarMedicoRequest
+                {
+                    Documento = medico.Documento,
+                    Nome = medico.Nome,
+                    Crm = medico.Crm,
+                    Email = medico.Email,
+                    Senha = medico.Senha
+                }));
             }
             catch (Exception ex)
             {
