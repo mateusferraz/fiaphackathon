@@ -19,7 +19,7 @@ namespace Infrastructure.Mappings
                 .IsRequired()
                 .HasColumnName("status_agendamento");
 
-            entityTypeBuilder.Property(p => p.Medico)
+            entityTypeBuilder.Property(p => p.MedicoId)
                 .IsRequired()
                 .HasColumnName("id_medico");
 

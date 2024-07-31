@@ -29,6 +29,11 @@ namespace Infrastructure.Mappings
                 .HasMaxLength(50);
 
             entityTypeBuilder.HasAlternateKey(p => p.Documento);
+
+            entityTypeBuilder.HasMany(b => b.Agendamentos)
+                .WithOne(a => a.Paciente)
+                .HasForeignKey(a => a.PacienteId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
