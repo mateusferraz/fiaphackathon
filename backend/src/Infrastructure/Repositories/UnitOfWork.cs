@@ -5,19 +5,19 @@ namespace Infrastructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private UserRepository _userRepository;
+        private AgendaRepository _userRepository;
         private DataBaseContext _context;
         public UnitOfWork(DataBaseContext context)
         {
             _context = context;
         }
-        public IUserRepository UserRepository
+        public IPacienteRepository UserRepository
         {
             get
             {
                 if (_userRepository == null)
                 {
-                    _userRepository = new UserRepository(_context);
+                    _userRepository = new AgendaRepository(_context);
                 }
                 return _userRepository;
             }

@@ -24,7 +24,6 @@ namespace Infrastructure.Mappings
                 .HasColumnName("id_medico");
 
             entityTypeBuilder.Property(p => p.AgendamentoId)
-               .IsRequired()
                .HasColumnName("id_agendamento");
 
             entityTypeBuilder.HasAlternateKey(p => p.DataAgendamento);
