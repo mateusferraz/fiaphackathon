@@ -23,10 +23,20 @@ namespace Infrastructure.Mappings
                 .IsRequired()
                 .HasColumnName("id_medico");
 
+            entityTypeBuilder.Property(p => p.AgendamentoId)
+               .IsRequired()
+               .HasColumnName("id_agendamento");
+
             entityTypeBuilder.HasAlternateKey(p => p.DataAgendamento);
 
-            entityTypeBuilder.HasOne(b => b.AgendamentoPaciente)
-                .WithOne(b => b.AgendaMedico)
+            entityTypeBuilder.HasOne(a => a.Medico)
+                .WithMany(m => m.Agendas)
+                .HasForeignKey(a => a.MedicoId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entityTypeBuilder.HasOne(a => a.AgendamentoPaciente)
+                .WithOne(a => a.AgendaMedico)
+                .HasForeignKey<Agenda>(a => a.AgendamentoId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
