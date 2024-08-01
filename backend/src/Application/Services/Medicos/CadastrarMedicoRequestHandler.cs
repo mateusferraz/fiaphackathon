@@ -18,12 +18,21 @@ namespace Application.Services.Accounts
 
         public Task<Unit> Handle(CadastrarMedicoRequest request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Cadastrando o cliente: {request.Documento}");
+            _logger.LogInformation($"Cadastrando o Médico: {request.Documento}");
 
             var medico = _unitOfWork.MedicoRepository.SelectOne(x => x.Documento == request.Documento);
-
+            
             if (medico != null)
                 throw new InvalidOperationException("Medico já cadastrado!");
+
+            var emaillMedico = _unitOfWork.MedicoRepository.SelectOne(x => x.Email == request.Email);
+
+            if (emaillMedico != null)
+                throw new InvalidOperationException("E-mail Medico já cadastrado!");
+
+            var crmMedico = _unitOfWork.MedicoRepository.SelectOne(x => x.Crm == request.Crm);
+            if (crmMedico != null)
+                throw new InvalidOperationException("CRM Medico já cadastrado!");
 
             medico = new Medico
             {
