@@ -1,5 +1,6 @@
 ﻿using Application.Requests.Medicos;
 using Domain.Entidades;
+using Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
@@ -50,14 +51,14 @@ namespace Presentation.Controllers
         {
             try
             {
-                //var authorizationResult = CheckAccountClaim();
-                //if (authorizationResult == null)
-                //    return Unauthorized("Usuário não autorizado.");
+                var authorizationResult = CheckDocumentClaim();
+                if (authorizationResult.Item1 == null)
+                    return Unauthorized("Usuário não autorizado.");
 
                 return Ok(await mediator.Send(new CadatrarAgendaMedicoRequest
                 {
                     DataHoraDisponivel = data.DataHoraDisponivel,
-                    MedicoId = Guid.Parse("DEC2E513-2678-4725-8D77-102D611BEF6E")
+                    MedicoDocumento = authorizationResult.Item1
                 }));
             }
             catch (Exception ex)
@@ -66,22 +67,22 @@ namespace Presentation.Controllers
             }
         }
 
-        private Guid CheckAccountClaim()
+        private (string, TipoUsuario?) CheckDocumentClaim()
         {
             var user = HttpContext.User;
 
             if (!user.Identity.IsAuthenticated)
-                return Guid.Empty;
+                return (null, null);
 
-            var documentClaim = user.Claims.FirstOrDefault(c => c.Type == "MedicoId");
+            var documentClaim = user.Claims.FirstOrDefault(c => c.Type == "Documento");
+            var tipoUsuarioClaim = user.Claims.FirstOrDefault(c => c.Type == "TipoUsuario").Value;
+
+            Enum.TryParse(tipoUsuarioClaim, out TipoUsuario tipoUsuario);
 
             if (documentClaim == null)
-                return Guid.Empty;
+                return (null, null);
 
-            if (Guid.TryParse(documentClaim.Value, out Guid medicoId))
-                return medicoId;
-
-            return Guid.Empty;
+            return (documentClaim.Value, tipoUsuario);
         }
     }
 }

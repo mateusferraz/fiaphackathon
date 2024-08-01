@@ -9,6 +9,6 @@ namespace Application.Requests.Medicos
         public string DataHoraDisponivel { get; set; }
 
         [JsonIgnore]
-        public Guid? MedicoId { get; set; }
+        public string MedicoDocumento { get; set; }
     }
 }
