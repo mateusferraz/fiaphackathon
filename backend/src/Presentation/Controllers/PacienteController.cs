@@ -1,4 +1,6 @@
-﻿using Application.Requests.AgendaPaciente;
+﻿using Application.Queries.Paciente;
+using Application.Requests.Pacientes;
+using Application.Requests.AgendaPaciente;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Helpers;
@@ -12,24 +14,11 @@ namespace Presentation.Controllers
         }
 
         [HttpPost("cadastrar")]
-        public async Task<IActionResult> CadastrarPaciente()
+        public async Task<IActionResult> CadastrarPaciente([FromBody] CadatrarPacienteRequest paciente)
         {
             try
             {
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("login")]
-        public async Task<IActionResult> Logar()
-        {
-            try
-            {
-                return Ok();
+                return Ok(await mediator.Send(paciente));
             }
             catch (Exception ex)
             {
@@ -38,11 +27,15 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("buscar-medico")]
-        public async Task<IActionResult> BuscarMedico()
+        public async Task<IActionResult> BuscarMedico([FromQuery] string documento)
         {
+            //var authorizationResult = CheckDocumentClaim();
+            //if (authorizationResult == null)
+            //    return Unauthorized("Unauthorized user");
+
             try
             {
-                return Ok();
+                return Ok(await mediator.Send(new GetMedicoQuery {Documento = documento}));
             }
             catch (Exception ex)
             {
