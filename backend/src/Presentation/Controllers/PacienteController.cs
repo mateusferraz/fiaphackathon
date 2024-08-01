@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Application.Queries.Paciente;
+using Application.Requests.Pacientes;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -10,11 +12,11 @@ namespace Presentation.Controllers
         }
 
         [HttpPost("cadastrar")]
-        public async Task<IActionResult> CadastrarPaciente()
+        public async Task<IActionResult> CadastrarPaciente([FromBody] CadatrarPacienteRequest paciente)
         {
             try
             {
-                return Ok();
+                return Ok(await mediator.Send(paciente));
             }
             catch (Exception ex)
             {
@@ -36,11 +38,19 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("buscar-medico")]
-        public async Task<IActionResult> BuscarMedico()
+        public async Task<IActionResult> BuscarMedico([FromQuery] string documento, [FromQuery] string nome, [FromQuery] string crm)
         {
+            if(string.IsNullOrEmpty(documento) || string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(crm))
+            {
+                return BadRequest("");
+            }
+            //var authorizationResult = CheckDocumentClaim();
+            //if (authorizationResult == null)
+            //    return Unauthorized("Unauthorized user");
+
             try
             {
-                return Ok();
+                return Ok(await mediator.Send(new GetMedicoQuery { Nome = nome, Documento = documento, Crm = crm }));
             }
             catch (Exception ex)
             {
