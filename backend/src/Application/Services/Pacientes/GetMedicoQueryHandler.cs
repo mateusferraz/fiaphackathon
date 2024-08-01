@@ -5,7 +5,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services.Paciente
+namespace Application.Services.Pacientes
 {
     public class GetMedicoQueryHandler : IRequestHandler<GetMedicoQuery, MedicoViewModel>
     {

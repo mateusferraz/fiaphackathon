@@ -3,7 +3,7 @@ using Application.Requests.Pacientes;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Application.Services.Paciente
+namespace Application.Services.Pacientes
 {
     public class CadastrarPacienteRequestHandler : IRequestHandler<CadatrarPacienteRequest, Unit>
     {
