@@ -18,5 +18,14 @@ namespace Infrastructure.Repositories
 
             return query.Where(filter).FirstOrDefault();
         }
+
+        public IEnumerable<Medico> SelectMany(Expression<Func<Medico, bool>> filter = null)
+        {
+            IQueryable<Medico> query = context.Medicos;
+
+            query = query.Include(account => account.Agendas);
+
+            return query.Where(filter).ToList();
+        }
     }
 }
