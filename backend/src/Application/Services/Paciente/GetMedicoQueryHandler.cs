@@ -23,11 +23,9 @@ namespace Application.Services.Paciente
 
         public Task<MedicoViewModel> Handle(GetMedicoQuery request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Listando o medico Documento: {request.Nome}");
+            _logger.LogInformation($"Listando o medico Documento: {request.Documento}");
 
-            var queryResult = _unitOfWork.MedicoRepository.Find(x => x.Documento == request.Documento
-                                                                  || x.Crm == request.Crm
-                                                                  || x.Nome == request.Nome);
+            var queryResult = _unitOfWork.MedicoRepository.Find(x => x.Documento == request.Documento);
 
             if (queryResult == null)
                 throw new NullReferenceException("Medico not found!");
