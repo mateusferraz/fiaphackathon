@@ -1,6 +1,8 @@
 ﻿using Application.Requests.Medicos;
+using Domain.Entidades;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace Presentation.Controllers
 {
@@ -44,16 +46,42 @@ namespace Presentation.Controllers
         }
 
         [HttpPost("cadastrar-agenda")]
-        public async Task<IActionResult> CadastrarAgenda()
+        public async Task<IActionResult> CadastrarAgenda([FromBody] CadatrarAgendaMedicoRequest data)
         {
             try
             {
-                return Ok();
+                //var authorizationResult = CheckAccountClaim();
+                //if (authorizationResult == null)
+                //    return Unauthorized("Usuário não autorizado.");
+
+                return Ok(await mediator.Send(new CadatrarAgendaMedicoRequest
+                {
+                    DataHoraDisponivel = data.DataHoraDisponivel,
+                    MedicoId = Guid.Parse("DEC2E513-2678-4725-8D77-102D611BEF6E")
+                }));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        private Guid CheckAccountClaim()
+        {
+            var user = HttpContext.User;
+
+            if (!user.Identity.IsAuthenticated)
+                return Guid.Empty;
+
+            var documentClaim = user.Claims.FirstOrDefault(c => c.Type == "MedicoId");
+
+            if (documentClaim == null)
+                return Guid.Empty;
+
+            if (Guid.TryParse(documentClaim.Value, out Guid medicoId))
+                return medicoId;
+
+            return Guid.Empty;
         }
     }
 }

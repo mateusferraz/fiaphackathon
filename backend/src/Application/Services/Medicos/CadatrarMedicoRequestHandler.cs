@@ -21,7 +21,7 @@ namespace Application.Services.Accounts
             _logger.LogInformation($"Cadastrando o cliente: {request.Documento}");
 
             var medico = _unitOfWork.MedicoRepository.SelectOne(x => x.Documento == request.Documento);
-
+            
             if (medico != null)
                 throw new InvalidOperationException("Medico já cadastrado!");
 
