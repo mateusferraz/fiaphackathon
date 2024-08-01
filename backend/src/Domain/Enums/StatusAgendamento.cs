@@ -2,7 +2,7 @@
 {
     public enum StatusAgendamento
     {
-        Agendamento = 0,
-        Paciente = 1
+        Livre = 0,
+        Agendado = 1
     }
 }
