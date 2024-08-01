@@ -2,6 +2,7 @@ using Application;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Presentation.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,11 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Fbank", Version = "v1" });
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Agendamento Medico", Version = "v1" });
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
-        Description = "Please enter a valid token",
+        Description = "Entre com um token valido",
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
         BearerFormat = "JWT",
@@ -39,7 +40,7 @@ var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").B
 
 builder.Services.AddAplication();
 builder.Services.AddInfrastructure(configuration);
-//builder.Services.AddAuthorization(configuration);
+builder.Services.AddAutorizacao(configuration);
 
 var MyAllowSpecificOrigins = "allowAll";
 
