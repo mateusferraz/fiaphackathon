@@ -24,18 +24,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("login")]
-        public async Task<IActionResult> Logar()
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+      
 
         [HttpGet("buscar-medico")]
         public async Task<IActionResult> BuscarMedico([FromQuery] string documento, [FromQuery] string nome, [FromQuery] string crm)
