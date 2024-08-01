@@ -19,7 +19,7 @@ namespace Application.Services.Accounts
 
         public Task<Unit> Handle(CadatrarAgendaMedicoRequest request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Cadastrando  data disponivel agenda médico: {request.DataHoraDisponivel}");
+            _logger.LogInformation($"Cadastrando data disponivel agenda médico: {request.DataHoraDisponivel}");
 
            if(validarRequest(request)) { 
                 Guid medicoId = request.MedicoId ?? Guid.Empty;
