@@ -8,8 +8,6 @@
   <ItemGroup>
     <Folder Include="Dto\" />
     <Folder Include="Extensions\" />
-    <Folder Include="ViewMoldels\" />
-    <Folder Include="Queries\" />
   </ItemGroup>
 
   <ItemGroup>
