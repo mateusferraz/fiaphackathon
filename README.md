@@ -101,5 +101,9 @@ Parâmetros:
 idAgenda: Identificador único do horário disponível obtido no buscar-agenda-medico
 Exemplo de Requisição:
 POST /api/healthMed/Paciente/agendar?idAgenda=2095b9e9-d4de-43b9-94a1-f18f913bb30a
+Esee Endpoint ao finalizar envia email para o medico com informações do agendamento
 
 ![image](https://github.com/user-attachments/assets/1b4882ca-a6be-4259-86a8-8271bc8deeb0)
+
+
+![image](https://github.com/user-attachments/assets/4cc92a04-d879-47ba-966c-de119669a69b)
