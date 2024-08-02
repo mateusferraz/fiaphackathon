@@ -36,7 +36,7 @@ namespace Application.Services
             if (medico == null && paciente == null)
                 throw new ArgumentException("Email ou senha Incorreta!");
 
-            string documento = medico.Documento ?? paciente.Documento;
+            string documento = medico?.Documento ?? paciente.Documento;
 
             return _tokenService.GerarToken(documento, request.TipoUsuario);
         }

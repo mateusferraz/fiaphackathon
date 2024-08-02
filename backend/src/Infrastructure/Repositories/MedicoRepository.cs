@@ -24,8 +24,10 @@ namespace Infrastructure.Repositories
             IQueryable<Medico> query = context.Medicos;
 
             query = query.Include(account => account.Agendas);
-
-            return query.Where(filter).ToList();
+            if (filter == null)
+                return query.ToList();
+            else
+                return query.Where(filter).ToList();
         }
     }
 }
