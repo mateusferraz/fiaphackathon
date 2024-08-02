@@ -1,4 +1,6 @@
-﻿using Application.Requests.Medicos;
+﻿using Application.Queries.Medicos;
+using Application.Requests.Medicos;
+using Application.ViewMoldels;
 using Domain.Entidades;
 using Domain.Enums;
 using MediatR;
@@ -55,7 +57,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("listar-agenda")]
-        public async Task<IActionResult> EditarAgenda()
+        public async Task<ActionResult<IEnumerable<AgendaViewModel>>> EditarAgenda()
         {
             try
             {
@@ -88,7 +90,8 @@ namespace Presentation.Controllers
                 return Ok(await mediator.Send(new EditarAgendaMedicoRequest
                 {
                     idAgenda = data.idAgenda,
-                    NovaDataHoraDisponivel = data.NovaDataHoraDisponivel
+                    NovaDataHoraDisponivel = data.NovaDataHoraDisponivel,
+                    MedicoDocumento = authorizationResult.Item1
                 }));
             }
             catch (Exception ex)

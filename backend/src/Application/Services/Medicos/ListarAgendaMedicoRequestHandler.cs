@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
-using Application.Requests.Medicos;
+using Application.Queries.Medicos;
+using Application.ViewMoldels;
 using Domain.Common;
 using Domain.Entidades;
 using MediatR;
@@ -7,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services.Accounts
 {
-    public class ListarAgendaMedicoRequestHandler : IRequestHandler<ListarAgendaMedicoQuery, IEnumerable<Agenda>>
+    public class ListarAgendaMedicoRequestHandler : IRequestHandler<ListarAgendaMedicoQuery, IEnumerable<AgendaViewModel>>
     {
         private readonly ILogger<ListarAgendaMedicoRequestHandler> _logger;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,7 +18,7 @@ namespace Application.Services.Accounts
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Agenda>> Handle(ListarAgendaMedicoQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<AgendaViewModel>> Handle(ListarAgendaMedicoQuery query, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Listando agendas cadastradas para o Médico: {query.Documento}");
 
@@ -27,8 +28,18 @@ namespace Application.Services.Accounts
                 throw new InvalidOperationException("Medico não encontrado!");
 
             var agendas = _unitOfWork.AgendaRepository.Find();
+            var agandaData = new List<AgendaViewModel>();
+            foreach (var agenda in agendas)
+            {
+                agandaData.Add(new AgendaViewModel
+                {
+                    DataAgendamento = agenda.DataAgendamento.ToString("dd/MM/yyyy HH:mm"),
+                    Id = agenda.Id,
+                    Status = agenda.Status
+                });
+            }
 
-            return agendas;
+            return agandaData;
         }
     }
 }

@@ -27,12 +27,24 @@ namespace Application.Services.Accounts
                 throw new InvalidOperationException("Medico não encontrado!");
 
             if (RequestValidada(request, medico.Id))
-            {
-                var agenda = _unitOfWork.AgendaRepository.SelectOne(x => x.Id == request.idAgenda);
+            {                
+                var agenda = medico.Agendas.FirstOrDefault(x => x.Id == request.idAgenda);
 
-                agenda.DataAgendamento = DateTime.Parse(request.NovaDataHoraDisponivel);
+                if (agenda == null)
+                    throw new InvalidOperationException("Agenda não encontrada!");
 
-                _unitOfWork.AgendaRepository.Update(agenda);
+                var agendamentoPaciente = medico.Agendas.Where(x => x.AgendamentoPaciente.AgendaId == agenda.Id);
+                if (agendamentoPaciente == null)
+                    throw new InvalidOperationException("Este registro não pode ser alterado pois já está agendado para um paciente!");
+
+                var newAgenda = new Agenda
+                {
+                    DataAgendamento = DateTime.Parse(request.NovaDataHoraDisponivel),
+                    MedicoId = agenda.MedicoId,
+                };
+                 
+                _unitOfWork.AgendaRepository.Delete(agenda);
+                _unitOfWork.AgendaRepository.Insert(newAgenda);
             }
             return Unit.Task;
         }
