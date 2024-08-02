@@ -27,7 +27,7 @@ namespace Application.Services.Accounts
             if (medico == null)
                 throw new InvalidOperationException("Medico não encontrado!");
 
-            var agendas = _unitOfWork.AgendaRepository.Find();
+            var agendas = _unitOfWork.AgendaRepository.Find(x => x.MedicoId == medico.Id);
             var agandaData = new List<AgendaViewModel>();
             foreach (var agenda in agendas)
             {
