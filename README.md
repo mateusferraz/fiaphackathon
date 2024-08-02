@@ -25,7 +25,8 @@ Busca por Médicos (Paciente)
 O paciente deve poder visualizar a lista de médicos disponíveis. 
 
 Agendamento de Consultas (Paciente)
-Após selecionar um médico, o paciente deve poder visualizar a agenda do médico com os horários disponíveis.
+Após selecionar um médico, o paciente deve poder visualizar a agenda do médico com os horários disponíveis. 
+Ao agendar a consulta será enviado um email para o medico contendo as informações da agendamento.
 
 
 Endpoints da API:
