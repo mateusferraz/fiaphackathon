@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Requests.AgendaPaciente;
 using Domain.Entidades;
+using Domain.Enums;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -23,7 +24,7 @@ namespace Application.Services.AgendaPaciente
             var paciente = _unitOfWork.PacienteRepository.SelectOne(x => x.Documento == request.Documento)
                 ?? throw new InvalidOperationException("Paciente não encontrado!");
 
-            var agenda = _unitOfWork.AgendaRepository.SelectOne(x => x.Id == request.IdAgenda)
+            var agenda = _unitOfWork.AgendaRepository.SelectOne(x => x.Id == request.IdAgenda && x.Status == StatusAgendamento.Livre)
                 ?? throw new InvalidOperationException("Agenda indisponivel!");
 
             _unitOfWork.AgendamentoRepository.Insert(new Agendamento
