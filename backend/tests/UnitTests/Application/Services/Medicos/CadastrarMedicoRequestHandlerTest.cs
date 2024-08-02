@@ -29,7 +29,7 @@ namespace UnitTests.Application.Services.Medicos
         }
 
         [Fact]
-        public void Should_not_return_medico_requested() 
+        public async Task Should_not_return_medico_requested() 
         {
             var request = new CadastrarMedicoRequest
             {
@@ -46,17 +46,17 @@ namespace UnitTests.Application.Services.Medicos
                     .Returns(medico);
 
             var handler = new CadastrarMedicoRequestHandler(_mockLogger, _mockUnitOfWork.Object);
-            Assert.ThrowsAsync<NullReferenceException>(() => handler.Handle(request, CancellationToken.None));            
+            await Assert.ThrowsAsync<NullReferenceException>(() => handler.Handle(request, CancellationToken.None));            
         }
 
 
         [Fact]
-        public void Should_return_NullReferenceException_when_medico_not_found()
+        public async Task Should_return_NullReferenceException_when_medico_not_found()
         {
             _mockUnitOfWork.Setup(s => s.MedicoRepository
                 .SelectOne(It.IsAny<Expression<Func<Medico, bool>>>()))
                 .Throws(new NullReferenceException());
-            Assert.ThrowsAsync<NullReferenceException>(() => _handler.Handle(_request, CancellationToken.None));
+             await Assert.ThrowsAsync<NullReferenceException>(() => _handler.Handle(_request, CancellationToken.None));
         }
 
     }

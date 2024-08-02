@@ -26,7 +26,7 @@ namespace UnitTests.Application.Services.Medicos
         }
 
         [Fact]
-        public void Should_return_agendamento_requested()
+        public async Task Should_return_agendamento_requested()
         {
             var request = new CadatrarAgendaMedicoRequest
             {
@@ -40,16 +40,16 @@ namespace UnitTests.Application.Services.Medicos
                     .Returns(agendamento);
 
             var handler = new CadatrarAgendaMedicoRequestHandler(_mockLogger, _mockUnitOfWork.Object);
-            Assert.ThrowsAsync<NullReferenceException>(() => handler.Handle(request, CancellationToken.None));
+            await Assert.ThrowsAsync<NullReferenceException>(() => handler.Handle(request, CancellationToken.None));
         }
 
         [Fact]
-        public void Should_return_NullReferenceException_when_agendamento_not_found()
+        public async Task  Should_return_NullReferenceException_when_agendamento_not_found()
         {
             _mockUnitOfWork.Setup(s => s.AgendamentoRepository
                 .SelectOne(It.IsAny<Expression<Func<Agendamento, bool>>>()))
                 .Throws(new NullReferenceException());
-            Assert.ThrowsAsync<NullReferenceException>(() => _handler.Handle(_request, CancellationToken.None));
+            await Assert.ThrowsAsync<NullReferenceException>(() => _handler.Handle(_request, CancellationToken.None));
         }
     }
 }
