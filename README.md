@@ -1,38 +1,43 @@
-Sistema de Agendamento de Consultas.
-
-Este sistema foi desenvolvido utilizando a plataforma .NET e permite a gestão de médicos e pacientes, bem como o agendamento de consultas. 
-Abaixo estão descritos os requisitos funcionais e os endpoints disponíveis para interação com a API via Swagger.
+Sistema de Agendamento de Consultas
+Este sistema foi desenvolvido utilizando a plataforma .NET e permite a gestão de médicos e pacientes, bem como o agendamento de consultas. Abaixo, você encontrará uma descrição detalhada dos requisitos funcionais e dos endpoints da API disponíveis para interação via Swagger.
 
 Requisitos Funcionais:
 
-Cadastro do Usuário (Médico)
-O médico deve poder se cadastrar preenchendo os seguintes campos obrigatórios: Nome, CPF, Número CRM, E-mail e Senha.
+Cadastro de Usuário (Médico)
+Descrição: O médico pode se cadastrar preenchendo os seguintes campos obrigatórios:
+Nome
+CPF
+Número CRM
+E-mail
+Senha
 
-Autenticação do Usuário (Médico)
-O sistema deve permitir que o médico faça login utilizando o E-mail e Senha. 
-Onde será Retornado o token para autorização.
+Autenticação de Usuário (Médico)
+Descrição: O médico pode fazer login utilizando o e-mail e a senha. Um token de autorização será retornado.
+Cadastro/Edição de Horários Disponíveis (Médico)
+Descrição: O médico pode cadastrar e editar seus horários disponíveis para agendamento de consultas.
 
-Cadastro/Edição Horários Disponíveis (Médico)
-O médico deve poder cadastrar e editar seus horários disponíveis para o agendamento de consultas.
+Cadastro de Usuário (Paciente)
+Descrição: O paciente pode se cadastrar preenchendo os seguintes campos:
+Nome
+CPF
+E-mail
+Senha
 
-Cadastro do Usuário (Paciente)
-O paciente deve poder se cadastrar preenchendo os campos: Nome, CPF, Email e Senha.
-
-Autenticação do Usuário (Paciente)
-O sistema deve permitir que o paciente faça login utilizando o E-mail e Senha. Onde será retornado o token de autorizações.
+Autenticação de Usuário (Paciente)
+Descrição: O paciente pode fazer login utilizando o e-mail e a senha. Um token de autorização será retornado.
 
 Busca por Médicos (Paciente)
-O paciente deve poder visualizar a lista de médicos disponíveis. 
+Descrição: O paciente pode visualizar a lista de médicos disponíveis.
 
 Agendamento de Consultas (Paciente)
-Após selecionar um médico, o paciente deve poder visualizar a agenda do médico com os horários disponíveis. 
-Ao agendar a consulta será enviado um email para o medico contendo as informações da agendamento.
+Descrição: Após selecionar um médico, o paciente pode visualizar a agenda do médico com os horários disponíveis. Ao agendar uma consulta, um e-mail será enviado ao médico com as informações do agendamento.
 
 
 Endpoints da API:
 
 Cadastro do Médico:
 Endpoint: POST /api/healthMed/Medico/cadastrar
+Descrição: Registra um novo médico no sistema.
 Parâmetros:
 {
   "nome": "string",
@@ -46,17 +51,18 @@ Parâmetros:
 
 Autenticação do Médico:
 Endpoint: GET /api/healthMed/Login/medico
+Descrição: Autentica um médico e retorna um token de autorização.
 Parâmetros:
 Email: E-mail do médico
 Senha: Senha do médico
 Exemplo de Requisição:
 GET /api/healthMed/Login/medico?Email=teste%40&Senha=1234
-Retornar: O token para autorização
 
 ![image](https://github.com/user-attachments/assets/25443665-a656-4e7d-83c5-29d309d64699)
 
 Cadastro de Horários Disponíveis do Medico:
 Endpoint: POST /api/healthMed/Medico/cadastrar-agenda
+Descrição: Permite ao médico cadastrar novos horários disponíveis.
 Parâmetros:
 {
   "dataHoraDisponivel": "dd/MM/yyyy HH:mm"
@@ -66,11 +72,12 @@ Parâmetros:
 
 Listar Agenda Medico
 Endpoint: GET /api/healthMed/Medico/listar-agenda
-Retorna a agenda do medico logado para obter o id da agenta que sera editado
+Descrição: Retorna a agenda do médico logado, incluindo IDs das agendas para edição.
 ![image](https://github.com/user-attachments/assets/17339bd9-aa36-4621-9eaa-48641212a81f)
 
 Edição dos Horários Cadastrado do Medico:
 Endpoint: POST: api/healthMed/Medico/editar-agenda
+Descrição: Permite ao médico editar um horário disponível existente.
 Parametros: 
 {
 "idAgenda": "ef1eef01-7b35-4a5f-a043-20988218161c",
@@ -81,6 +88,7 @@ Parametros:
 
 Cadastro do Paciente:
 Endpoint: POST /api/healthMed/Paciente/cadastrar
+Descrição: Registra um novo paciente no sistema.
 Parâmetros:
 Copiar código
 {
@@ -96,30 +104,29 @@ Copiar código
 
 Autenticação do Paciente:
 Endpoint: GET /api/healthMed/Login/paciente
+Descrição: Autentica um paciente e retorna um token de autorização.
 Parâmetros:
 Email: E-mail do paciente
 Senha: Senha do paciente
 Exemplo de Requisição:
 GET /api/healthMed/Login/paciente?Email=teste%40&Senha=teste%40
-Retornar: O token para autorização
 
 ![image](https://github.com/user-attachments/assets/03a392e0-8755-432e-8d69-f499ee4c2625)
 
 Busca os Médicos e suas Agendas:
 
 Endpoint: GET /api/healthMed/Paciente/buscar-agenda-medico
-Descrição: Permite ao paciente visualizar a lista de médicos disponíveis.
-Retornar os medicos e suas agendas, deve ser pego id da agenda escolhida para ser usado no agendamento.
+Descrição: Permite ao paciente visualizar a lista de médicos disponíveis e suas agendas. O ID da agenda selecionada é necessário para o agendamento.
 
 ![image](https://github.com/user-attachments/assets/0ebe1e06-fefe-47cf-b503-927b72df2adf)
 
 Agendamento de Consultas:
 Endpoint: POST /api/healthMed/Paciente/agendar
+Descrição: Permite ao paciente agendar uma consulta com um médico. Um e-mail será enviado ao médico com as informações do agendamento.
 Parâmetros:
-idAgenda: Identificador único do horário disponível obtido no buscar-agenda-medico
+idAgenda: Identificador único do horário disponível obtido na busca de médicos
 Exemplo de Requisição:
 POST /api/healthMed/Paciente/agendar?idAgenda=2095b9e9-d4de-43b9-94a1-f18f913bb30a
-Esee Endpoint ao finalizar envia email para o medico com informações do agendamento
 
 ![image](https://github.com/user-attachments/assets/1b4882ca-a6be-4259-86a8-8271bc8deeb0)
 
