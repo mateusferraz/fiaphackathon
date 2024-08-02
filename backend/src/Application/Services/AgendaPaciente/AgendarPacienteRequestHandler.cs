@@ -1,12 +1,9 @@
 ﻿using Application.Interfaces;
 using Application.Requests.AgendaPaciente;
 using Domain.Entidades;
-using Domain.Entities;
 using Domain.Enums;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System.Net;
-using System.Net.Mail;
 
 namespace Application.Services.AgendaPaciente
 {
@@ -14,10 +11,12 @@ namespace Application.Services.AgendaPaciente
     {
         private readonly ILogger<AgendarPacienteRequestHandler> _logger;
         private readonly IUnitOfWork _unitOfWork;
-        public AgendarPacienteRequestHandler(ILogger<AgendarPacienteRequestHandler> logger, IUnitOfWork unitOfWork)
+        private readonly IEmailService _emailService;
+        public AgendarPacienteRequestHandler(ILogger<AgendarPacienteRequestHandler> logger, IUnitOfWork unitOfWork, IEmailService emailService)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
         }
 
         public Task<Unit> Handle(AgendarPacienteRequest request, CancellationToken cancellationToken)
@@ -36,9 +35,13 @@ namespace Application.Services.AgendaPaciente
                 PacienteId = paciente.Id
             });
 
+            agenda.Status = StatusAgendamento.Agendado;
+
+            _unitOfWork.AgendaRepository.Update(agenda);
+
             try
             {
-                EnviarEmail(paciente, agenda);
+                _emailService.EnviarEmail(paciente, agenda);
             }
             catch (Exception ex)
             {
@@ -46,35 +49,7 @@ namespace Application.Services.AgendaPaciente
 
                 throw new InvalidOperationException("Erro ao enviar email para o medico: {agenda.Medico.Email}");
             }
-
             return Unit.Task;
         }
-
-        public static void EnviarEmail(Paciente paciente, Agenda agenda)
-        {
-            MailMessage emailMessage = new MailMessage();
-
-            SmtpClient smtpClient = new SmtpClient("smtp-mail.outlook.com", 587);
-
-            smtpClient.EnableSsl = true;
-            smtpClient.Timeout = 10000;
-            smtpClient.UseDefaultCredentials = false;
-            smtpClient.Credentials = new NetworkCredential("fiaphackathonagendamedica@outlook.com", "paciente@123");
-            emailMessage.From = new MailAddress("fiaphackathonagendamedica@outlook.com", "Fiap Hackathon");
-            emailMessage.Subject = "”Health&Med - Nova consulta agendada";
-
-            string mensagem = $@"Olá, {agenda.Medico.Nome}!
-                    Você tem uma nova consulta marcada!
-                    Paciente: {paciente.Nome}.
-                    Data e horário: {agenda.DataAgendamento:dd/MM/yyyy} às {agenda.DataAgendamento:HH:mm}.";
-
-            emailMessage.Body = mensagem;
-            emailMessage.IsBodyHtml = true;
-            emailMessage.Priority = MailPriority.Normal;
-            emailMessage.To.Add(agenda.Medico.Email);
-
-            smtpClient.Send(emailMessage);
-        }
-
     }
 }
