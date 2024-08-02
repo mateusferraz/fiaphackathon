@@ -33,19 +33,6 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("login")]
-        public async Task<IActionResult> Logar()
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost("cadastrar-agenda")]
         public async Task<IActionResult> CadastrarAgenda([FromBody] CadatrarAgendaMedicoRequest data)
         {
@@ -65,6 +52,50 @@ namespace Presentation.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("listar-agenda")]
+        public async Task<IActionResult> EditarAgenda()
+        {
+            try
+            {
+                var authorizationResult = CheckDocumentClaim();
+                if (authorizationResult.Item1 == null)
+                    return Unauthorized("Usuário não autorizado.");
+
+                return Ok(await mediator.Send(new ListarAgendaMedicoQuery
+                {
+                    Documento = authorizationResult.Item1
+                }));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+        }
+
+        [HttpPost("editar-agenda")]
+        public async Task<IActionResult> EditarAgenda([FromBody] EditarAgendaMedicoRequest data)
+        {
+            try
+            {
+                var authorizationResult = CheckDocumentClaim();
+                if (authorizationResult.Item1 == null)
+                    return Unauthorized("Usuário não autorizado.");
+
+                return Ok(await mediator.Send(new EditarAgendaMedicoRequest
+                {
+                    idAgenda = data.idAgenda,
+                    NovaDataHoraDisponivel = data.NovaDataHoraDisponivel
+                }));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         private (string, TipoUsuario?) CheckDocumentClaim()
