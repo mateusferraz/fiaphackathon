@@ -29,8 +29,8 @@ namespace Presentation.Controllers
         }
 
         [Authorize]
-        [HttpGet("buscar-medico")]
-        public async Task<IActionResult> BuscarMedico([FromQuery] string documento)
+        [HttpGet("buscar-agenda-medico")]
+        public async Task<IActionResult> BuscarMedico()
         {
             var authorizationResult = ClaimsHelper.CheckDocumentClaim(HttpContext.User);
             if (authorizationResult.tpUsuario != TipoUsuario.Paciente )
@@ -38,7 +38,7 @@ namespace Presentation.Controllers
 
             try
             {
-                return Ok(await mediator.Send(new GetMedicoQuery {Documento = documento}));
+                return Ok(await mediator.Send(new GetMedicoQuery()));
             }
             catch (Exception ex)
             {
