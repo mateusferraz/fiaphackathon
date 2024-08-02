@@ -20,7 +20,7 @@ namespace Application.Services.AgendaPaciente
         {
             _logger.LogInformation($"Realizando agendamento do paciente: {request.Documento}");
 
-            var paciente = _unitOfWork.PacienteRepository.SelectOne(x => x.Documento == request.Documento);
+            var paciente = _unitOfWork.PacienteRepository.SelectOne(x => x.Documento == request.Documento)
                 ?? throw new InvalidOperationException("Paciente não encontrado!");
 
             var agenda = _unitOfWork.AgendaRepository.SelectOne(x => x.Id == request.IdAgenda)
