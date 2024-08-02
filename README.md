@@ -1,5 +1,5 @@
-Sistema de Agendamento de Consultas
-Bem-vindo ao sistema de agendamento de consultas! 
+Sistema de Agendamento de Consultas.
+
 Este sistema foi desenvolvido utilizando a plataforma .NET e permite a gestão de médicos e pacientes, bem como o agendamento de consultas. 
 Abaixo estão descritos os requisitos funcionais e os endpoints disponíveis para interação com a API via Swagger.
 
