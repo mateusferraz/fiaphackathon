@@ -33,8 +33,8 @@ namespace Application.Services.Accounts
                 if (agenda == null)
                     throw new InvalidOperationException("Agenda não encontrada!");
 
-                var agendamentoPaciente = medico.Agendas.Where(x => x.AgendamentoPaciente.AgendaId == agenda.Id);
-                if (agendamentoPaciente == null)
+                var agendamentoPaciente = _unitOfWork.AgendamentoRepository.SelectOne(x => x.AgendaId == agenda.Id);
+                if (agendamentoPaciente != null)
                     throw new InvalidOperationException("Este registro não pode ser alterado pois já está agendado para um paciente!");
 
                 var newAgenda = new Agenda
