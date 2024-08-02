@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Application.Requests.Medicos
 {
-    public class CadatrarAgendaMedicoRequest : IRequest<Unit>, IPersistable
+    public class CadastrarAgendaMedicoRequest : IRequest<Unit>, IPersistable
     {
         public string DataHoraDisponivel { get; set; }
 
