@@ -2,7 +2,6 @@
 using Application.Queries.Paciente;
 using Application.ViewMoldels;
 using AutoMapper;
-using Domain.Common;
 using Domain.Entidades;
 using MediatR;
 using Microsoft.Extensions.Logging;

@@ -32,7 +32,7 @@ namespace Presentation.Controllers
         [HttpGet("buscar-medico")]
         public async Task<IActionResult> BuscarMedico([FromQuery] string documento)
         {
-            var authorizationResult = CheckDocumentClaim();
+            var authorizationResult = ClaimsHelper.CheckDocumentClaim(HttpContext.User);
             if (authorizationResult.tpUsuario != TipoUsuario.Paciente )
                 return Unauthorized("Usuário não autorizado.");
 
@@ -52,7 +52,7 @@ namespace Presentation.Controllers
             try
             {
                 var authorizationResult = ClaimsHelper.CheckDocumentClaim(HttpContext.User);
-                if (authorizationResult.Item1 == null)
+                if (authorizationResult.documento == null)
                     return Unauthorized("Usuário não autorizado.");
 
                 return Ok(await mediator.Send(new AgendarPacienteRequest
@@ -65,24 +65,6 @@ namespace Presentation.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
-
-        private (string token, TipoUsuario? tpUsuario) CheckDocumentClaim()
-        {
-            var user = HttpContext.User;
-
-            if (!user.Identity.IsAuthenticated)
-                return (null, null);
-
-            var documentClaim = user.Claims.FirstOrDefault(c => c.Type == "Documento");
-            var tipoUsuarioClaim = user.Claims.FirstOrDefault(c => c.Type == "TipoUsuario").Value;
-
-            Enum.TryParse(tipoUsuarioClaim, out TipoUsuario tipoUsuario);
-
-            if (documentClaim == null)
-                return (null, null);
-
-            return (token: documentClaim.Value,tpUsuario: tipoUsuario);
         }
     }
 }
