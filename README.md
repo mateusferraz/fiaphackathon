@@ -12,8 +12,8 @@ Autenticação do Usuário (Médico)
 O sistema deve permitir que o médico faça login utilizando o E-mail e Senha. 
 Onde será Retornado o token para autorização.
 
-Cadastro Horários Disponíveis (Médico)
-O médico deve poder cadastrar seus horários disponíveis para o agendamento de consultas.
+Cadastro/Edição Horários Disponíveis (Médico)
+O médico deve poder cadastrar e editar seus horários disponíveis para o agendamento de consultas.
 
 Cadastro do Usuário (Paciente)
 O paciente deve poder se cadastrar preenchendo os campos: Nome, CPF, Email e Senha.
@@ -64,6 +64,21 @@ Parâmetros:
 
 ![image](https://github.com/user-attachments/assets/33c0d215-1ad2-431e-882f-c4f5dde7dc4b)
 
+Listar Agenda Medico
+Endpoint: GET /api/healthMed/Medico/listar-agenda
+Retorna a agenda do medico logado para obter o id da agenta que sera editado
+![image](https://github.com/user-attachments/assets/17339bd9-aa36-4621-9eaa-48641212a81f)
+
+Edição dos Horários Cadastrado do Medico:
+Endpoint: POST: api/healthMed/Medico/editar-agenda
+Parametros: 
+{
+"idAgenda": "ef1eef01-7b35-4a5f-a043-20988218161c",
+"novaDataHoraDisponivel": "20/01/2025 15:30"
+}
+
+![image](https://github.com/user-attachments/assets/c211b6d2-2bda-41f6-a64a-b914812621d4)
+
 Cadastro do Paciente:
 Endpoint: POST /api/healthMed/Paciente/cadastrar
 Parâmetros:
@@ -74,6 +89,8 @@ Copiar código
   "email": "string",
   "senha": "string"
 }
+
+
 
 ![image](https://github.com/user-attachments/assets/4c8ca25c-c5a2-46c5-8312-993cb9af7608)
 
