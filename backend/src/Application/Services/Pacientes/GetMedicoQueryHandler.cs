@@ -25,17 +25,12 @@ namespace Application.Services.Pacientes
 
         public Task<IEnumerable<MedicoViewModel>> Handle(GetMedicoQuery request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Listando o medico Documento: {request.Documento}");
+            _logger.LogInformation($"Listando agenda medica");
 
-            Expression<Func<Medico, bool>> filter = null;
-
-            if (request != null && !string.IsNullOrWhiteSpace(request.Documento))
-                filter = x => x.Documento == request.Documento;
-
-            var queryResult = _unitOfWork.MedicoRepository.SelectMany(filter);
+            var queryResult = _unitOfWork.MedicoRepository.SelectMany();
 
             if (queryResult == null)
-                throw new NullReferenceException("Medico not found!");
+                throw new NullReferenceException("Agenda medica nao encontrada!");
 
             var mappedResult = _mapper.Map<IEnumerable<MedicoViewModel>>(queryResult);
 

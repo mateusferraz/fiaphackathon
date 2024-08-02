@@ -25,7 +25,7 @@ namespace Application.Services.Accounts
             if (medico == null || medico.Id == Guid.Empty)
                 throw new InvalidOperationException("Medico não está logado!");
 
-            if (validarRequest(request, medico.Id)) {
+            if (RequestValidada(request, medico.Id)) {
 
                
 
@@ -40,7 +40,7 @@ namespace Application.Services.Accounts
             }
             return Unit.Task;
         }       
-        private bool validarRequest(CadatrarAgendaMedicoRequest request, Guid medicoId) {
+        private bool RequestValidada(CadatrarAgendaMedicoRequest request, Guid medicoId) {
             DateTime.TryParse(request.DataHoraDisponivel, out DateTime result);
             if(result == null || result == DateTime.MinValue)
                 throw new InvalidOperationException("Formato de data inválida, por favor informe a data e hora no formato: \"dia/mês/ano hora:minuto\" ex:01/01/2000 12:00");
@@ -57,7 +57,7 @@ namespace Application.Services.Accounts
             var dataAgendadas = _unitOfWork.AgendaRepository.SelectOne(x => x.DataAgendamento == _dataAgendamento && x.Medico.Id == medicoId);
 
             if (dataAgendadas != null)
-                throw new InvalidOperationException("Data já cadastrado!");
+                throw new InvalidOperationException("Data já cadastrada!");
 
 
             return true;

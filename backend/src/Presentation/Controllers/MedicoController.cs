@@ -1,9 +1,12 @@
-﻿using Application.Requests.Medicos;
+﻿using Application.Queries.Medicos;
+using Application.Requests.Medicos;
+using Application.ViewMoldels;
 using Domain.Entidades;
 using Domain.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
+using Presentation.Helpers;
 
 namespace Presentation.Controllers
 {
@@ -33,32 +36,20 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("login")]
-        public async Task<IActionResult> Logar()
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
+        [Authorize]
         [HttpPost("cadastrar-agenda")]
         public async Task<IActionResult> CadastrarAgenda([FromBody] CadatrarAgendaMedicoRequest data)
         {
             try
             {
-                var authorizationResult = CheckDocumentClaim();
-                if (authorizationResult.Item1 == null)
+                var authorizationResult = ClaimsHelper.CheckDocumentClaim(HttpContext.User);
+                if (authorizationResult.tpUsuario != TipoUsuario.Medico)
                     return Unauthorized("Usuário não autorizado.");
 
                 return Ok(await mediator.Send(new CadatrarAgendaMedicoRequest
                 {
                     DataHoraDisponivel = data.DataHoraDisponivel,
-                    MedicoDocumento = authorizationResult.Item1
+                    MedicoDocumento = authorizationResult.documento
                 }));
             }
             catch (Exception ex)
@@ -67,22 +58,51 @@ namespace Presentation.Controllers
             }
         }
 
-        private (string, TipoUsuario?) CheckDocumentClaim()
+        [Authorize]
+        [HttpGet("listar-agenda")]
+        public async Task<ActionResult<IEnumerable<AgendaViewModel>>> EditarAgenda()
         {
-            var user = HttpContext.User;
+            try
+            {
+                var authorizationResult = ClaimsHelper.CheckDocumentClaim(HttpContext.User);
+                if (authorizationResult.tpUsuario != TipoUsuario.Medico)
+                    return Unauthorized("Usuário não autorizado.");
 
-            if (!user.Identity.IsAuthenticated)
-                return (null, null);
+                return Ok(await mediator.Send(new ListarAgendaMedicoQuery
+                {
+                    Documento = authorizationResult.documento
+                }));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-            var documentClaim = user.Claims.FirstOrDefault(c => c.Type == "Documento");
-            var tipoUsuarioClaim = user.Claims.FirstOrDefault(c => c.Type == "TipoUsuario").Value;
 
-            Enum.TryParse(tipoUsuarioClaim, out TipoUsuario tipoUsuario);
+        }
 
-            if (documentClaim == null)
-                return (null, null);
+        [Authorize]
+        [HttpPost("editar-agenda")]
+        public async Task<IActionResult> EditarAgenda([FromBody] EditarAgendaMedicoRequest data)
+        {
+            try
+            {
+                var authorizationResult = ClaimsHelper.CheckDocumentClaim(HttpContext.User);
+                if (authorizationResult.tpUsuario != TipoUsuario.Medico)
+                    return Unauthorized("Usuário não autorizado.");
 
-            return (documentClaim.Value, tipoUsuario);
+                return Ok(await mediator.Send(new EditarAgendaMedicoRequest
+                {
+                    idAgenda = data.idAgenda,
+                    NovaDataHoraDisponivel = data.NovaDataHoraDisponivel,
+                    MedicoDocumento = authorizationResult.documento
+                }));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }
