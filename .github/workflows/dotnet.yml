@@ -1,0 +1,25 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+
+    runs-on: ubuntu-latest
+          
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 7.0.x
+    - name: Restore dependencies
+      run: dotnet restore backend/FiapHackathonHealthMed.sln
+    - name: Build
+      run: dotnet build backend/FiapHackathonHealthMed.sln --no-restore
+    - name: Unit Tests
+      run: dotnet test backend/tests/UnitTests/UnitTests.csproj --no-build --verbosity normal

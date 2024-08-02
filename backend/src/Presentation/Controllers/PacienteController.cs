@@ -1,7 +1,9 @@
 ﻿using Application.Queries.Paciente;
 using Application.Requests.Pacientes;
+using Application.Requests.AgendaPaciente;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Helpers;
 
 namespace Presentation.Controllers
 {
@@ -42,11 +44,19 @@ namespace Presentation.Controllers
         }
 
         [HttpPost("agendar")]
-        public async Task<IActionResult> AgendarPaciente()
+        public async Task<IActionResult> AgendarPaciente(Guid idAgenda)
         {
             try
             {
-                return Ok();
+                var authorizationResult = ClaimsHelper.CheckDocumentClaim(HttpContext.User);
+                if (authorizationResult.Item1 == null)
+                    return Unauthorized("Usuário não autorizado.");
+
+                return Ok(await mediator.Send(new AgendarPacienteRequest
+                {
+                    Documento = authorizationResult.Item1,
+                    IdAgenda = idAgenda
+                }));
             }
             catch (Exception ex)
             {
