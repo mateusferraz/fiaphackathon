@@ -1,4 +1,7 @@
-﻿using Application.Requests.Medicos;
+﻿using Application.Queries.Medicos;
+using Application.Requests.Medicos;
+using Application.ViewMoldels;
+using Domain.Entidades;
 using Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -53,6 +56,53 @@ namespace Presentation.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [Authorize]
+        [HttpGet("listar-agenda")]
+        public async Task<ActionResult<IEnumerable<AgendaViewModel>>> EditarAgenda()
+        {
+            try
+            {
+                var authorizationResult = ClaimsHelper.CheckDocumentClaim(HttpContext.User);
+                if (authorizationResult.tpUsuario != TipoUsuario.Medico)
+                    return Unauthorized("Usuário não autorizado.");
+
+                return Ok(await mediator.Send(new ListarAgendaMedicoQuery
+                {
+                    Documento = authorizationResult.documento
+                }));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+        }
+
+        [Authorize]
+        [HttpPost("editar-agenda")]
+        public async Task<IActionResult> EditarAgenda([FromBody] EditarAgendaMedicoRequest data)
+        {
+            try
+            {
+                var authorizationResult = ClaimsHelper.CheckDocumentClaim(HttpContext.User);
+                if (authorizationResult.tpUsuario != TipoUsuario.Medico)
+                    return Unauthorized("Usuário não autorizado.");
+
+                return Ok(await mediator.Send(new EditarAgendaMedicoRequest
+                {
+                    idAgenda = data.idAgenda,
+                    NovaDataHoraDisponivel = data.NovaDataHoraDisponivel,
+                    MedicoDocumento = authorizationResult.documento
+                }));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }
