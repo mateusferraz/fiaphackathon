@@ -1,7 +1,6 @@
 ﻿using Application.Queries.Medicos;
 using Application.Requests.Medicos;
 using Application.ViewMoldels;
-using Domain.Entidades;
 using Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -38,7 +37,7 @@ namespace Presentation.Controllers
 
         [Authorize]
         [HttpPost("cadastrar-agenda")]
-        public async Task<IActionResult> CadastrarAgenda([FromBody] CadatrarAgendaMedicoRequest data)
+        public async Task<IActionResult> CadastrarAgenda([FromBody] CadastrarAgendaMedicoRequest data)
         {
             try
             {
@@ -46,7 +45,7 @@ namespace Presentation.Controllers
                 if (authorizationResult.tpUsuario != TipoUsuario.Medico)
                     return Unauthorized("Usuário não autorizado.");
 
-                return Ok(await mediator.Send(new CadatrarAgendaMedicoRequest
+                return Ok(await mediator.Send(new CadastrarAgendaMedicoRequest
                 {
                     DataHoraDisponivel = data.DataHoraDisponivel,
                     MedicoDocumento = authorizationResult.documento
