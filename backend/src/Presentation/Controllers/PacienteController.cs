@@ -1,11 +1,11 @@
-﻿using Application.Queries.Paciente;
-using Application.Requests.Pacientes;
+﻿using Application.Requests.Pacientes;
 using Domain.Enums;
 using Application.Requests.AgendaPaciente;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Helpers;
+using Application.Queries.Pacientes;
 
 namespace Presentation.Controllers
 {

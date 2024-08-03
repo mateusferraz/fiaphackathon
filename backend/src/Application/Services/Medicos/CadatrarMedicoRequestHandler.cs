@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services.Accounts
 {
-    public class CadatrarMedicoRequestHandler : IRequestHandler<CadatrarMedicoRequest, Unit>
+    public class CadatrarMedicoRequestHandler : IRequestHandler<CadastrarMedicoRequest, Unit>
     {
         private readonly ILogger<CadatrarMedicoRequestHandler> _logger;
         private readonly IUnitOfWork _unitOfWork;
@@ -16,7 +16,7 @@ namespace Application.Services.Accounts
             _unitOfWork = unitOfWork;
         }
 
-        public Task<Unit> Handle(CadatrarMedicoRequest request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(CadastrarMedicoRequest request, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Cadastrando o Médico: {request.Documento}");
 

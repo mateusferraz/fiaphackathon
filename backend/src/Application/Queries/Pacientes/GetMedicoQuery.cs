@@ -1,7 +1,7 @@
 ﻿using Application.ViewMoldels;
 using MediatR;
 
-namespace Application.Queries.Paciente
+namespace Application.Queries.Pacientes
 {
     public class GetMedicoQuery : IRequest<IEnumerable<MedicoViewModel>>
     {
