@@ -17,11 +17,11 @@ namespace Presentation.Controllers
         }
 
         [HttpPost("cadastrar")]
-        public async Task<IActionResult> CadastrarMedico([FromBody] CadatrarMedicoRequest medico)
+        public async Task<IActionResult> CadastrarMedico([FromBody] CadastrarMedicoRequest medico)
         {
             try
             {
-                return Ok(await mediator.Send(new CadatrarMedicoRequest
+                return Ok(await mediator.Send(new CadastrarMedicoRequest
                 {
                     Documento = medico.Documento,
                     Nome = medico.Nome,
@@ -38,7 +38,7 @@ namespace Presentation.Controllers
 
         [Authorize]
         [HttpPost("cadastrar-agenda")]
-        public async Task<IActionResult> CadastrarAgenda([FromBody] CadatrarAgendaMedicoRequest data)
+        public async Task<IActionResult> CadastrarAgenda([FromBody] CadastrarAgendaMedicoRequest data)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace Presentation.Controllers
                 if (authorizationResult.tpUsuario != TipoUsuario.Medico)
                     return Unauthorized("Usuário não autorizado.");
 
-                return Ok(await mediator.Send(new CadatrarAgendaMedicoRequest
+                return Ok(await mediator.Send(new CadastrarAgendaMedicoRequest
                 {
                     DataHoraDisponivel = data.DataHoraDisponivel,
                     MedicoDocumento = authorizationResult.documento

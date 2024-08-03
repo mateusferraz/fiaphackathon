@@ -13,14 +13,14 @@ namespace UnitTests.Application.Services.Medicos
     public class CadastrarPacienteRequestHandlerTest
     {        
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
-        private readonly CadatrarMedicoRequest _request;
+        private readonly CadastrarMedicoRequest _request;
         private readonly CadatrarMedicoRequestHandler _handler;
         private readonly ILogger<CadatrarMedicoRequestHandler> _mockLogger;
 
         public CadastrarPacienteRequestHandlerTest()
         {   
             _mockUnitOfWork = new Mock<IUnitOfWork>();
-            _request = new CadatrarMedicoRequest();
+            _request = new CadastrarMedicoRequest();
             _handler = new CadatrarMedicoRequestHandler(                
                 Substitute.For<ILogger<CadatrarMedicoRequestHandler>>(), _mockUnitOfWork.Object);
             _mockLogger = Substitute.For<ILogger<CadatrarMedicoRequestHandler>>();
@@ -29,7 +29,7 @@ namespace UnitTests.Application.Services.Medicos
         [Fact]
         public void Should_insert_medico_requested() 
         {
-            var request = new CadatrarMedicoRequest
+            var request = new CadastrarMedicoRequest
             {
                 Crm = "0",
                 Documento="0",
@@ -54,7 +54,7 @@ namespace UnitTests.Application.Services.Medicos
         {
             var medico = new Medico { Documento = "12345678", Email = "Teste@teste.com.br", Crm = "0", Senha ="123", Id = Guid.Parse("227d288f-a248-4850-a1fc-c8539007fcbb"), Nome = "Dr. Joao" };
 
-            var request = new CadatrarMedicoRequest
+            var request = new CadastrarMedicoRequest
             {
                 Crm = "0",
                 Documento = "12345678",
@@ -76,7 +76,7 @@ namespace UnitTests.Application.Services.Medicos
         {
             var medico = new Medico { Documento = "12345678", Email = "Teste@teste.com.br", Crm = "0", Senha = "123", Id = Guid.Parse("227d288f-a248-4850-a1fc-c8539007fcbb"), Nome = "Dr. Joao" };
 
-            var request = new CadatrarMedicoRequest
+            var request = new CadastrarMedicoRequest
             {
                 Crm = "1",
                 Documento = "123456789",
@@ -99,7 +99,7 @@ namespace UnitTests.Application.Services.Medicos
         {
             var medico = new Medico { Documento = "12345678", Email = "Teste@teste.com.br", Crm = "1", Senha = "123", Id = Guid.Parse("227d288f-a248-4850-a1fc-c8539007fcbb"), Nome = "Dr. Joao" };
 
-            var request = new CadatrarMedicoRequest
+            var request = new CadastrarMedicoRequest
             {
                 Crm = "1",
                 Documento = "1234567890",
