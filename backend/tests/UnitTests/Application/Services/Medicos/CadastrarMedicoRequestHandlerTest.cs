@@ -12,14 +12,14 @@ using Azure.Core;
 
 namespace UnitTests.Application.Services.Medicos
 {
-    public class CadastrarMedicoRequestHandlerTest
+    public class CadastrarPacienteRequestHandlerTest
     {        
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
         private readonly CadatrarMedicoRequest _request;
         private readonly CadatrarMedicoRequestHandler _handler;
         private readonly ILogger<CadatrarMedicoRequestHandler> _mockLogger;
 
-        public CadastrarMedicoRequestHandlerTest()
+        public CadastrarPacienteRequestHandlerTest()
         {   
             _mockUnitOfWork = new Mock<IUnitOfWork>();
             _request = new CadatrarMedicoRequest();
