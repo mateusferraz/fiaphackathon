@@ -46,6 +46,7 @@ namespace Presentation.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("agendar")]
         public async Task<IActionResult> AgendarPaciente(Guid idAgenda)
         {

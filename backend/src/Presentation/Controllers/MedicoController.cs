@@ -1,7 +1,6 @@
 ﻿using Application.Queries.Medicos;
 using Application.Requests.Medicos;
 using Application.ViewMoldels;
-using Domain.Entidades;
 using Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
