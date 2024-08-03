@@ -1,7 +1,4 @@
-﻿using Domain.Entidades;
-using Domain.Enums;
-
-namespace Application.ViewMoldels
+﻿namespace Application.ViewMoldels
 {
     public class MedicoViewModel
     {
@@ -11,12 +8,5 @@ namespace Application.ViewMoldels
         public string Crm { get; set; }
         public string Email { get; set; }
         public IEnumerable<AgendaViewModel> Agendas { get; set; }
-    }
-
-    public class AgendaViewModel
-    {
-        public Guid Id { get; set; }
-        public DateTime DataAgendamento { get; set; }
-        public StatusAgendamento Status { get; set; }
     }
 }

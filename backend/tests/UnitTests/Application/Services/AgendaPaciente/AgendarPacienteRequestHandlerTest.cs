@@ -6,9 +6,6 @@ using Domain.Entities;
 using Domain.Enums;
 using Microsoft.Extensions.Logging;
 using Moq;
-using NSubstitute;
-using NSubstitute.ReturnsExtensions;
-using System;
 using System.Linq.Expressions;
 
 namespace UnitTests.Application.Services.Medicos

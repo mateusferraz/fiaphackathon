@@ -4,9 +4,10 @@ using System.Text.Json.Serialization;
 
 namespace Application.Requests.Medicos
 {
-    public class CadatrarAgendaMedicoRequest : IRequest<Unit>, IPersistable
+    public class EditarAgendaMedicoRequest : IRequest<Unit>, IPersistable
     {
-        public string DataHoraDisponivel { get; set; }
+        public Guid idAgenda { get; set; }
+        public string NovaDataHoraDisponivel { get ; set ; }
 
         [JsonIgnore]
         public string MedicoDocumento { get; set; }

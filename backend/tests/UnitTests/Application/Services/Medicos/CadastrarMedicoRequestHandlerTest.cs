@@ -1,14 +1,12 @@
 ﻿
 using Application.Interfaces;
-using Moq;
+using Application.Requests.Medicos;
+using Application.Services.Accounts;
+using Domain.Entidades;
 using Microsoft.Extensions.Logging;
+using Moq;
 using NSubstitute;
 using System.Linq.Expressions;
-using Application.Services.Accounts;
-using Application.Requests.Medicos;
-using Domain.Entidades;
-using System.Reflection.Metadata;
-using Azure.Core;
 
 namespace UnitTests.Application.Services.Medicos
 {
@@ -52,12 +50,72 @@ namespace UnitTests.Application.Services.Medicos
         }
 
         [Fact]
-        public async Task Should_return_NullReferenceException_when_medico_not_found()
+        public async Task Nao_deve_duplicar_cadastro_medico()
         {
-            _mockUnitOfWork.Setup(s => s.MedicoRepository
-                .SelectOne(It.IsAny<Expression<Func<Medico, bool>>>()))
-                .Throws(new NullReferenceException());
-             await Assert.ThrowsAsync<NullReferenceException>(() => _handler.Handle(_request, CancellationToken.None));
+            var medico = new Medico { Documento = "12345678", Email = "Teste@teste.com.br", Crm = "0", Senha ="123", Id = Guid.Parse("227d288f-a248-4850-a1fc-c8539007fcbb"), Nome = "Dr. Joao" };
+
+            var request = new CadatrarMedicoRequest
+            {
+                Crm = "0",
+                Documento = "12345678",
+                Email = "Teste@teste.com.br",
+                Nome = "Dr. Joao",
+                Senha = "123"
+            };
+
+            _mockUnitOfWork.Setup(x => x.MedicoRepository.SelectOne(It.IsAny<Expression<Func<Medico, bool>>>()))
+                .Returns(medico);
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _handler.Handle(request, CancellationToken.None));
+
+            Assert.Equal("Medico já cadastrado!", exception.Message);
+        }
+
+        [Fact]
+        public async Task Nao_deve_cadastrar_medico_se_email_ja_cadastrado()
+        {
+            var medico = new Medico { Documento = "12345678", Email = "Teste@teste.com.br", Crm = "0", Senha = "123", Id = Guid.Parse("227d288f-a248-4850-a1fc-c8539007fcbb"), Nome = "Dr. Joao" };
+
+            var request = new CadatrarMedicoRequest
+            {
+                Crm = "1",
+                Documento = "123456789",
+                Email = "Teste@teste.com.br",
+                Nome = "Dr. Joao",
+                Senha = "123"
+            };
+
+            _mockUnitOfWork.SetupSequence(x => x.MedicoRepository.SelectOne(It.IsAny<Expression<Func<Medico, bool>>>()))
+                .Returns((Medico)null)
+                .Returns(medico);
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _handler.Handle(request, CancellationToken.None));
+
+            Assert.Equal("E-mail Medico já cadastrado!", exception.Message);
+        }
+
+        [Fact]
+        public async Task Nao_deve_cadastrar_medico_se_crm_ja_cadastrado()
+        {
+            var medico = new Medico { Documento = "12345678", Email = "Teste@teste.com.br", Crm = "1", Senha = "123", Id = Guid.Parse("227d288f-a248-4850-a1fc-c8539007fcbb"), Nome = "Dr. Joao" };
+
+            var request = new CadatrarMedicoRequest
+            {
+                Crm = "1",
+                Documento = "1234567890",
+                Email = "Tester@teste.com.br",
+                Nome = "Dr. Joao",
+                Senha = "123"
+            };
+
+            _mockUnitOfWork.SetupSequence(x => x.MedicoRepository.SelectOne(It.IsAny<Expression<Func<Medico, bool>>>()))
+                .Returns((Medico)null)
+                .Returns((Medico)null)
+                .Returns(medico);
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _handler.Handle(request, CancellationToken.None));
+
+            Assert.Equal("CRM Medico já cadastrado!", exception.Message);
         }
     }
 }
