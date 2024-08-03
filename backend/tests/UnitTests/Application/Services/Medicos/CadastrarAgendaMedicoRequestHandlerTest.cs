@@ -10,13 +10,13 @@ using System.Linq.Expressions;
 
 namespace UnitTests.Application.Services.Medicos
 {
-    public class CadatrarAgendaMedicoRequestHandlerTest
+    public class CadastrarAgendaMedicoRequestHandlerTest
     {
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
         private readonly CadastrarAgendaMedicoRequest _request;
         private readonly CadastrarAgendaMedicoRequestHandler _handler;
         private readonly ILogger<CadastrarAgendaMedicoRequestHandler> _mockLogger;
-        public CadatrarAgendaMedicoRequestHandlerTest()
+        public CadastrarAgendaMedicoRequestHandlerTest()
         {
             _mockUnitOfWork = new Mock<IUnitOfWork>();
             _request = new CadastrarAgendaMedicoRequest();

@@ -1,7 +1,6 @@
 ﻿using Application.Queries.Medicos;
 using Application.Requests.Medicos;
 using Application.ViewMoldels;
-using Domain.Entidades;
 using Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,11 +16,11 @@ namespace Presentation.Controllers
         }
 
         [HttpPost("cadastrar")]
-        public async Task<IActionResult> CadastrarMedico([FromBody] CadatrarMedicoRequest medico)
+        public async Task<IActionResult> CadastrarMedico([FromBody] CadastrarMedicoRequest medico)
         {
             try
             {
-                return Ok(await mediator.Send(new CadatrarMedicoRequest
+                return Ok(await mediator.Send(new CadastrarMedicoRequest
                 {
                     Documento = medico.Documento,
                     Nome = medico.Nome,

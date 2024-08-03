@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.Queries.Paciente;
+using Application.Queries.Pacientes;
 using Application.ViewMoldels;
 using AutoMapper;
 using Domain.Entidades;
@@ -23,7 +23,7 @@ namespace Application.Services.Pacientes
             _unitOfWork = unitOfWork;
         }
 
-        public Task<IEnumerable<MedicoViewModel>> Handle(GetMedicoQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<MedicoViewModel>> Handle(GetMedicoQuery request, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Listando agenda medica");
 
@@ -34,7 +34,7 @@ namespace Application.Services.Pacientes
 
             var mappedResult = _mapper.Map<IEnumerable<MedicoViewModel>>(queryResult);
 
-            return Task.FromResult(mappedResult);
+            return mappedResult;
         }
     }
 }
