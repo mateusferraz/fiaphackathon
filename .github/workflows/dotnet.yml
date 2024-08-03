@@ -22,4 +22,6 @@ jobs:
     - name: Build
       run: dotnet build backend/FiapHackathonHealthMed.sln --no-restore
     - name: Unit Tests
-      run: dotnet test backend/tests/UnitTests/UnitTests.csproj --no-build --verbosity normal
+      run: |
+        export LANG=pt_BR.UTF-8
+        dotnet test backend/tests/UnitTests/UnitTests.csproj --no-build --verbosity normal
